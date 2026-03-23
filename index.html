@@ -1227,37 +1227,45 @@ document.addEventListener('DOMContentLoaded', function () {
   );
   const clearBtn = document.querySelector('.in-context-ryp__form-field--starRating--clear');
 
+  const style = document.createElement('style');
+  style.textContent = `
+    [data-testid="in-context-ryp__form-field--starRating-single"] img {
+      transition: transform 120ms ease, opacity 120ms ease;
+    }
+    [aria-checked="false"] img {
+      opacity: 0.45;
+    }
+    .hovered img {
+      transform: scale(1.08);
+    }
+  `;
+  document.head.appendChild(style);
+
   function setRating(rating) {
     stars.forEach((star, index) => {
-      const active = index < rating;
-
-      star.setAttribute('aria-checked', active ? 'true' : 'false');
-
-      const img = star.querySelector('img');
-      if (img) {
-        img.style.opacity = active ? '1' : '0.35';
-        img.style.transform = active ? 'scale(1)' : 'scale(0.96)';
-        img.style.transition = 'opacity 0.15s ease, transform 0.15s ease';
-      }
+      star.setAttribute('aria-checked', index < rating ? 'true' : 'false');
     });
   }
 
   stars.forEach((star, index) => {
     star.style.cursor = 'pointer';
-    star.addEventListener('click', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      setRating(index + 1);
+
+    star.addEventListener('click', () => setRating(index + 1));
+
+    star.addEventListener('mouseenter', () => {
+      for (let i = 0; i <= index; i++) {
+        stars[i].classList.add('hovered');
+      }
+    });
+
+    star.addEventListener('mouseleave', () => {
+      stars.forEach(s => s.classList.remove('hovered'));
     });
   });
 
   if (clearBtn) {
     clearBtn.style.cursor = 'pointer';
-    clearBtn.addEventListener('click', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      setRating(0);
-    });
+    clearBtn.addEventListener('click', () => setRating(0));
   }
 });
 </script></body></html>
