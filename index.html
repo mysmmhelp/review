@@ -1222,33 +1222,42 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  const stars = Array.from(document.querySelectorAll('[data-testid="in-context-ryp__form-field--starRating-single"]'));
+  const stars = Array.from(
+    document.querySelectorAll('[data-testid="in-context-ryp__form-field--starRating-single"]')
+  );
   const clearBtn = document.querySelector('.in-context-ryp__form-field--starRating--clear');
 
   function setRating(rating) {
     stars.forEach((star, index) => {
-      star.setAttribute('aria-checked', index < rating ? 'true' : 'false');
+      const active = index < rating;
+
+      star.setAttribute('aria-checked', active ? 'true' : 'false');
+
+      const img = star.querySelector('img');
+      if (img) {
+        img.style.opacity = active ? '1' : '0.35';
+        img.style.transform = active ? 'scale(1)' : 'scale(0.96)';
+        img.style.transition = 'opacity 0.15s ease, transform 0.15s ease';
+      }
     });
   }
 
   stars.forEach((star, index) => {
-    // 🔥 force clickable
-    star.style.pointerEvents = 'auto';
     star.style.cursor = 'pointer';
-
-    // 🔥 also apply to parent
-    if (star.parentElement) {
-      star.parentElement.style.pointerEvents = 'auto';
-      star.parentElement.style.cursor = 'pointer';
-    }
-
-    star.addEventListener('click', () => setRating(index + 1));
+    star.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      setRating(index + 1);
+    });
   });
 
   if (clearBtn) {
-    clearBtn.style.pointerEvents = 'auto';
     clearBtn.style.cursor = 'pointer';
-    clearBtn.addEventListener('click', () => setRating(0));
+    clearBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      setRating(0);
+    });
   }
 });
 </script></body></html>
