@@ -41,6 +41,24 @@
   background-repeat: no-repeat;
 }
 </style>
+  <style>
+[data-testid="in-context-ryp__form-field--starRating-single"] {
+  display: inline-block;
+  cursor: pointer;
+}
+
+[data-testid="in-context-ryp__form-field--starRating-single"] img {
+  transition: transform 0.12s ease, opacity 0.12s ease;
+}
+
+[data-testid="in-context-ryp__form-field--starRating-single"][aria-checked="false"] img {
+  opacity: 0.45;
+}
+
+[data-testid="in-context-ryp__form-field--starRating-single"][aria-checked="true"] img {
+  opacity: 1;
+}
+</style>
 <link rel="stylesheet" href="./Review Your Purchases_files/51waPb-h-9L._RC_71kZiQj-9OL.css,416EF9fibnL.css,61q4iofWoPL.css,5129jh4wl0L.css,31+t0vmVjPL.css,01FcI3FsaiL.css,21Hc1s0-E4L.css,313Ydl5aIRL.css,21P0tNl-emL.css,41vWFCvFunL.css,21CB9R4dxNL.css,111Bp55OByL.css,01Acb9NWohL.css,21KQnzhmfTL.css,41KjMVCHsoL.css">
 <!-- sp:end-feature:nav-inline-css -->
 <!-- sp:feature:host-assets -->
@@ -1220,43 +1238,5 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 </script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const stars = Array.from(
-    document.querySelectorAll('[data-testid="in-context-ryp__form-field--starRating-single"]')
-  );
-  const clearBtn = document.querySelector('.in-context-ryp__form-field--starRating--clear');
-
-  function setRating(rating) {
-    stars.forEach((star, index) => {
-      const active = index < rating;
-      star.setAttribute('aria-checked', active ? 'true' : 'false');
-
-      const img = star.querySelector('img');
-      if (img) {
-        img.style.opacity = active ? '1' : '0.45';
-        img.style.transition = 'opacity 90ms linear';
-      }
-    });
-  }
-
-  stars.forEach((star, index) => {
-    star.style.cursor = 'pointer';
-    star.addEventListener('click', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      setRating(index + 1);
-    });
-  });
-
-  if (clearBtn) {
-    clearBtn.style.cursor = 'pointer';
-    clearBtn.addEventListener('click', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      setRating(0);
-    });
-  }
-});
-</script></body></html>
+</body></html>
 
