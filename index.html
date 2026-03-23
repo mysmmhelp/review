@@ -1219,5 +1219,37 @@ document.addEventListener('DOMContentLoaded', function () {
     clearBtn.addEventListener('click', () => setRating(0));
   }
 });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const stars = Array.from(document.querySelectorAll('[data-testid="in-context-ryp__form-field--starRating-single"]'));
+  const clearBtn = document.querySelector('.in-context-ryp__form-field--starRating--clear');
+
+  function setRating(rating) {
+    stars.forEach((star, index) => {
+      star.setAttribute('aria-checked', index < rating ? 'true' : 'false');
+    });
+  }
+
+  stars.forEach((star, index) => {
+    // 🔥 force clickable
+    star.style.pointerEvents = 'auto';
+    star.style.cursor = 'pointer';
+
+    // 🔥 also apply to parent
+    if (star.parentElement) {
+      star.parentElement.style.pointerEvents = 'auto';
+      star.parentElement.style.cursor = 'pointer';
+    }
+
+    star.addEventListener('click', () => setRating(index + 1));
+  });
+
+  if (clearBtn) {
+    clearBtn.style.pointerEvents = 'auto';
+    clearBtn.style.cursor = 'pointer';
+    clearBtn.addEventListener('click', () => setRating(0));
+  }
+});
 </script></body></html>
 
